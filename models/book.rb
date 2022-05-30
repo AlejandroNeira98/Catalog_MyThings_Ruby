@@ -1,6 +1,5 @@
-class Book
-  # rubacop:disable Style/RedundantInitialize
+require './item'
+class Book < Item
   def initialize()
   end
-  # rubacop:disable Style/RedundantInitialize
 end
