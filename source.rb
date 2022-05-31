@@ -1,5 +1,5 @@
 class Source
-  def initialize(name, id: nill)
+  def initialize(name, id: nil)
     @id = id.nil? ? Time.now.to_i : id
     @name = name
     @items = []
