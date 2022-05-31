@@ -6,4 +6,10 @@ class Game < item
     super(date, archived, id: id)
     @multiplayer = multiplayer
     @last_played_at = last_played_at
+
+
+    def can_be_archived?
+      current_time = Time.new
+      super && current_time.year - @last_played_at.year > 2
+    end
 end
