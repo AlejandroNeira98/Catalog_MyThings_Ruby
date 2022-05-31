@@ -1,5 +1,7 @@
 class Source
-  def initialize(name, id: nill)
+  attr_accessor :items, :name
+
+  def initialize(name, id: nil)
     @id = id.nil? ? Time.now.to_i : id
     @name = name
     @items = []
