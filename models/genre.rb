@@ -1,7 +1,7 @@
 require_relative '../item'
 
 class Genre
-  attr_writer :items
+  attr_accessor :name, :items
 
   def initialize(name, id: nil)
     @id = id.nil? ? Time.now.to_i : id
