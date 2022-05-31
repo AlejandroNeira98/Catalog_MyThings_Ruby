@@ -1,4 +1,5 @@
 require_relative './movie'
+require 'date'
 
 class App
   def initialize
@@ -16,7 +17,7 @@ class App
 
   def list_all_movies
     @movies.each do |movie|
-      puts "id: #{movie.id} ,date: #{movie.archived}, silent: #{movie.silent}"
+      puts "date: #{movie.can_be_archived?}, silent: #{movie.silent}"
     end
   end
 
@@ -50,8 +51,17 @@ class App
     raise StandardError, 'not implemented'
   end
 
-  def add_a_movie(date, archived, silent, id: nil)
-    movie = Movie.new(date, archived, silent, id: id)
+  def add_a_movie
+    puts 'Insert publish date (in the format of YYYY/MM/DD)'
+    date = gets.chomp
+    date = Date.parse(date)
+    puts 'Is the movie archived? (y/n)'
+    archived = gets.chomp
+    archived = %w[Y y].include?(archived)
+    puts 'Is the movie silent? (y/n)'
+    silent = gets.chomp
+    silent = %w[Y y].include?(silent)
+    movie = Movie.new(date, archived, silent)
     @movies << movie
   end
 
