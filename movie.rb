@@ -2,7 +2,7 @@ require_relative './item'
 
 class Movie < Item
   def initialize(date, archived, silent, id: nil)
-    super(date, archived, id)
+    super(date, archived, id: id)
     @silent = silent
   end
 
