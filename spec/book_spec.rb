@@ -3,7 +3,7 @@ require './models/book'
 describe Book do
   context 'can_be_archived? method' do
     it 'should override the method from the parent class' do
-      method = Book.method(:can_be_archived?)
+      method = Book.new(Time.now, true, 'McGraw Hill', 'bad').method(:can_be_archived?)
 
       owner = method.owner
 
@@ -11,7 +11,7 @@ describe Book do
     end
 
     it 'should return true if parent\'s method returns true OR if cover_state equals to "bad"' do
-      book_older_than_10_years = Book.new(Time.new(Time.now.year - 10), true, 'McGraw Hill', 'good')
+      book_older_than_10_years = Book.new(Time.new(Time.now.year - 11), true, 'McGraw Hill', 'good')
       new_book = Book.new(Time.now, true, 'McGraw Hill', 'bad')
 
       result1 = new_book.can_be_archived?
