@@ -1,8 +1,12 @@
+
+require_relative './movie'
 require 'date'
 require_relative './models/music_album'
 
 class App
   def initialize
+    @movies = []
+    @sources = []
     @music_albums = []
   end
 
@@ -20,7 +24,9 @@ class App
   end
 
   def list_all_movies
-    raise StandardError, 'not implemented'
+    @movies.each do |movie|
+      puts "date: #{movie.can_be_archived?}, silent: #{movie.silent}"
+    end
   end
 
   def list_of_games
@@ -40,7 +46,9 @@ class App
   end
 
   def list_all_sources
-    raise StandardError, 'not implemented'
+    @sources.each do |source|
+      puts source.name.to_s
+    end
   end
 
   def add_a_book
@@ -61,7 +69,17 @@ class App
   end
 
   def add_a_movie
-    raise StandardError, 'not implemented'
+    puts 'Insert publish date (in the format of YYYY/MM/DD)'
+    date = gets.chomp
+    date = Date.parse(date)
+    puts 'Is the movie archived? (y/n)'
+    archived = gets.chomp
+    archived = %w[Y y].include?(archived)
+    puts 'Is the movie silent? (y/n)'
+    silent = gets.chomp
+    silent = %w[Y y].include?(silent)
+    movie = Movie.new(date, archived, silent)
+    @movies << movie
   end
 
   def add_a_game
