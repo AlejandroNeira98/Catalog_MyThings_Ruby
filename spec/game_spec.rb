@@ -17,7 +17,7 @@ describe Game do
       expect(@game2.can_be_archived?).to be false
     end
 
-    it 'Should return false when date of publishing is more recent than 10 years and last_played is more than 2 years' do
+    it 'Should return false when publishing is more recent than 10 years and last_played is more than 2 years' do
       @published3 = Date.new(2015, 1, 31)
       @played3 = Date.new(2018, 1, 31)
       @game3 = Game.new(@published3, false, false, @played3)
