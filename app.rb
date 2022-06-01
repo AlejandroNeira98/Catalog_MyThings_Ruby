@@ -22,12 +22,17 @@ class App
     @movies = []
     @sources = []
     @music_albums = []
-    @books = []
-    @labels = [Label.new('Broken', 'red')]
+    @books = [Book.new(Date.new, true, '','')]
+    @labels = [Label.new('Red','red')]
+    @labels[0].add_item(@books[0])
   end
 
   def list_all_books
-    raise StandardError, 'not implemented'
+    puts "id\tpublish date\tarchived\tpublisher\tcover state\ttitle\n#{['-'] * 80 * ''}"
+    @books.each do |book|
+      puts "#{book.id}\t#{book.publish_date}\t#{book.archived}\t#{book.publisher}\t#{book.cover_state}\t\033[#{COLOR_CODES[book.label.color]}m#{book.label.title}\033[0m"
+    end
+    puts ''
   end
 
   def list_all_music_albums
