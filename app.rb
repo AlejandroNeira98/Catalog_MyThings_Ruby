@@ -1,9 +1,10 @@
 require_relative './movie'
 require 'date'
+require 'json'
 require_relative './models/music_album'
 require './models/book'
 require './models/label'
-require '.models/game'
+require './models/game'
 
 COLOR_CODES = {
   'black' => 30,
@@ -146,7 +147,8 @@ class App
 
   def save
     # Juan
-
+    File.write('./books.json', JSON.dump(@books))
+    File.write('./labels.json', JSON.dump(@labels))
     # Saadat
 
     # Chris
@@ -156,7 +158,16 @@ class App
 
   def load
     # Juan
-
+    # rubocop:disable Style/GuardClause
+    if File.exist?('./labels.json')
+      @labels = JSON.parse(File.read('./labels.json'))
+        .map { |data| Label.from_hash(data) }
+    end
+    if File.exist?('./books.json')
+      @books = JSON.parse(File.read('./books.json'))
+        .map { |data| Book.from_hash(data, @labels) }
+    end
+    # rubocop:enable Style/GuardClause
     # Saadat
 
     # Chris
