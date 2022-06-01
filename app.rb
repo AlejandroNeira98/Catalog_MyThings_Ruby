@@ -11,6 +11,7 @@ class App
     @sources = []
     @music_albums = []
     @games = []
+    @authors []
   end
 
   def list_all_books
@@ -47,7 +48,8 @@ class App
   end
 
   def list_all_authors
-    raise StandardError, 'not implemented'
+    @authors.each do |author|
+      puts "#{author.first_name} #{author.last_name}"
   end
 
   def list_all_sources
