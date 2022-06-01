@@ -90,6 +90,19 @@ class App
   end
 
   def add_a_game
-    raise StandardError, 'not implemented'
+    puts 'Insert publish date (in the format of YYYY/MM/DD)'
+    published = gets.chomp
+    published = Date.parse(date)
+    puts 'Is the game archived? (y/n)'
+    archived = gets.chomp
+    archived = %w[Y y].include?(archived)
+    puts 'Is the game multiplayer? (y/n)'
+    multiplayer = gets.chomp
+    multiplayer = %w[Y y].include?(silent)
+    puts 'Insert date you last played (in the format of YYYY/MM/DD)'
+    last_played = gets.chomp
+    last_played = Date.parse(date)
+    game = Game.new(date, archived, multiplayer, last_played)
+    @movies << movie
   end
 end
