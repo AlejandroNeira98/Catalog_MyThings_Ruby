@@ -3,6 +3,7 @@ require 'date'
 require_relative './models/music_album'
 require './models/book'
 require './models/label'
+require '.models/game'
 
 COLOR_CODES = {
   'black' => 30,
