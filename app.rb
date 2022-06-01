@@ -143,4 +143,24 @@ class App
   def add_a_game
     raise StandardError, 'not implemented'
   end
+
+  def save
+    # Juan
+
+    # Saadat
+
+    # Chris
+
+    # Alejandro
+  end
+
+  def load
+    # Juan
+
+    # Saadat
+
+    # Chris
+
+    # Alejandro
+  end
 end
