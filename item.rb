@@ -1,5 +1,6 @@
 class Item
   attr_accessor :author, :genre, :source, :label, :archived, :publish_date
+  attr_reader :id
 
   def initialize(date, archived, id: nil)
     @id = id.nil? ? Time.now.to_i : id
@@ -25,7 +26,7 @@ class Item
 
   def can_be_archived?
     current_time = Time.new
-    return true if current_time.year - @publish_date.year > 10
+    return true if (current_time.year - @publish_date.year) >= 10
 
     false
   end
