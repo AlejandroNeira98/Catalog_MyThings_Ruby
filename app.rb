@@ -2,13 +2,15 @@
 require_relative './movie'
 require 'date'
 require_relative './models/music_album'
-require '.models/game'
+require './models/game'
+require './models/author'
 
 class App
   def initialize
     @movies = []
     @sources = []
     @music_albums = []
+    @games = []
   end
 
   def list_all_books
@@ -31,7 +33,9 @@ class App
   end
 
   def list_of_games
-    raise StandardError, 'not implemented'
+    @games.each do |game|
+      puts "date: #{game.date}, multiplayer: #{game.multiplayer}, last played: #{game.last_played_at}"
+    end
   end
 
   def list_all_genres
