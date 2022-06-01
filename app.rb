@@ -107,6 +107,7 @@ class App
     puts 'Cover state:'
     cover_state = gets.chomp
     book = Book.new(date, archived, publisher, cover_state)
+    @books << book
     label = select_label
     label.add_item(book)
   end
