@@ -22,6 +22,7 @@ class Book < Item
     new_instance = new(publish_date, archived, publisher, cover_state, id: id)
     found_label = labels.find { |label| label.id == id }
     found_label&.add_item(label)
+    
     new_instance
   end
 end
