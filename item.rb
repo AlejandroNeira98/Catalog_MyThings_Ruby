@@ -1,5 +1,6 @@
 class Item
   attr_accessor :author, :genre, :source, :label, :archived, :publish_date
+  attr_reader :id
 
   def initialize(date, archived, id: nil)
     @id = id.nil? ? Time.now.to_i : id
