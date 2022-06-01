@@ -13,4 +13,14 @@ class Label
     @items << item
     item.add_label(self)
   end
+
+  def to_json(*_args)
+    { title: title, color: color, id: id }.to_json
+  end
+
+  def self.from_hash(hash)
+    title, color, id = *hash
+    
+    new(title, color, id: id)
+  end
 end
