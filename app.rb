@@ -1,9 +1,10 @@
 require_relative './movie'
 require 'date'
+require 'json'
 require_relative './models/music_album'
 require './models/book'
 require './models/label'
-require '.models/game'
+require './models/game'
 
 COLOR_CODES = {
   'black' => 30,
@@ -146,7 +147,8 @@ class App
 
   def save
     # Juan
-
+    File.write('./books.json', JSON.dump(@books))
+    File.write('./labels.json', JSON.dump(@labels))
     # Saadat
 
     # Chris
@@ -156,7 +158,8 @@ class App
 
   def load
     # Juan
-
+    @labels = JSON.parse(File.read('./labels.json')).map { |label_data| Label.from_hash(label_data) } if File.exists?('./labels.json')
+    @books = JSON.parse(File.read('./books.json')).map { |book_data| Book.from_hash(book_data, @labels) } if File.exists?('./books.json')
     # Saadat
 
     # Chris
