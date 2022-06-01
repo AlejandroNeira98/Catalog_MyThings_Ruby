@@ -1,5 +1,6 @@
 require 'date'
 require_relative './models/music_album'
+require '.models/game'
 
 class App
   def initialize
