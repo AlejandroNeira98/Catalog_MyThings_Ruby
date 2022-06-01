@@ -1,4 +1,4 @@
-require './models/movie'
+require './models/game'
 require 'date'
 
 describe Game do
