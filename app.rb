@@ -158,8 +158,16 @@ class App
 
   def load
     # Juan
-    @labels = JSON.parse(File.read('./labels.json')).map { |label_data| Label.from_hash(label_data) } if File.exists?('./labels.json')
-    @books = JSON.parse(File.read('./books.json')).map { |book_data| Book.from_hash(book_data, @labels) } if File.exists?('./books.json')
+    if File.exist?('./labels.json')
+      @labels = JSON.parse(File.read('./labels.json')).map do |label_data|
+        Label.from_hash(label_data)
+      end
+    end
+    if File.exist?('./books.json')
+      @books = JSON.parse(File.read('./books.json')).map do |book_data|
+        Book.from_hash(book_data, @labels)
+      end
+    end
     # Saadat
 
     # Chris
