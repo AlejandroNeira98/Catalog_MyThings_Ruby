@@ -158,16 +158,16 @@ class App
 
   def load
     # Juan
+    # rubocop:disable Style/GuardClause
     if File.exist?('./labels.json')
-      @labels = JSON.parse(File.read('./labels.json')).map do |label_data|
-        Label.from_hash(label_data)
-      end
+      @labels = JSON.parse(File.read('./labels.json'))
+        .map { |data| Label.from_hash(data) }
     end
     if File.exist?('./books.json')
-      @books = JSON.parse(File.read('./books.json')).map do |book_data|
-        Book.from_hash(book_data, @labels)
-      end
+      @books = JSON.parse(File.read('./books.json'))
+        .map { |data| Book.from_hash(data, @labels) }
     end
+    # rubocop:enable Style/GuardClause
     # Saadat
 
     # Chris
