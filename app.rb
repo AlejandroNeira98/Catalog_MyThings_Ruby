@@ -1,4 +1,3 @@
-
 require_relative './movie'
 require 'date'
 require_relative './models/music_album'
