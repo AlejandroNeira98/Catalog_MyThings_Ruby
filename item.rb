@@ -25,7 +25,7 @@ class Item
 
   def can_be_archived?
     current_time = Time.new
-    return true if current_time.year - @publish_date.year > 10
+    return true if (current_time.year - @publish_date.year) >= 10
 
     false
   end
