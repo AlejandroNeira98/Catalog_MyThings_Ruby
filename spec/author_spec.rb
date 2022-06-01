@@ -1,5 +1,5 @@
-require_relative './models/author'
-require_relative './item'
+require './models/author'
+require './item'
 
 describe Author do
   context 'Testing Author class add_item method' do
