@@ -3,7 +3,7 @@ require 'date'
 require_relative './models/music_album'
 require './models/book'
 require './models/label'
-require '.models/game'
+require './models/game'
 
 COLOR_CODES = {
   'black' => 30,
@@ -140,6 +140,9 @@ class App
     silent = %w[Y y].include?(silent)
     movie = Movie.new(date, archived, silent)
     @movies << movie
+    File.open('movies.json', 'w') do |file|
+      JSON.dump(@movies, file)
+    end
   end
 
   def add_a_game

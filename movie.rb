@@ -4,8 +4,8 @@ require 'json'
 class Movie < Item
   attr_accessor :silent
 
-  def initialize(date, archived, silent, id: nil)
-    super(date, archived, id: id)
+  def initialize(publish_date, archived, silent, id: nil)
+    super(publish_date, archived, id: id)
     @silent = silent
   end
 
@@ -16,7 +16,7 @@ class Movie < Item
   def as_json()
     {
       JSON.create_id => self.class.name,
-      'a' => [@date, @archived, @silent, @id]
+      'a' => [@publish_date, @archived, @silent, @id]
     }
   end
 
@@ -25,7 +25,7 @@ class Movie < Item
   end
 
   def self.json_create(object)
-    date, archived, silent, id = object['a']
-    new(date, archived, silent, id: id)
+    publish_date, archived, silent, id = object['a']
+    new(publish_date, archived, silent, id: id)
   end
 end
