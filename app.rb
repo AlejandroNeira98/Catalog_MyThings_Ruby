@@ -97,26 +97,6 @@ class App
     label
   end
 
-  def select_label
-    puts "  \t|id\t\t|title\t\t|color\n#{['-'] * 50 * ''}"
-    @labels.each_with_index do |label, i|
-      puts "#{i})\t#{label.id}\t#{label.title}\t\t\033[#{COLOR_CODES[label.color]}m#{label.color}\033[0m"
-    end
-    puts "#{@labels.length})\t+ Add label"
-    puts 'Select a label:'
-    label = @labels[gets.to_i]
-    if label.nil?
-      puts 'Tile:'
-      title = gets.chomp
-      puts 'Color(black/red/green/yellow/blue/pink/cyan/white/default):'
-      color = gets.chomp
-      color = 'default' if COLOR_CODES[color].nil?
-      label = Label.new(title, color)
-    end
-    @labels << label
-    label
-  end
-
   def add_a_book
     puts 'Publish date (YYYY-MM-DD):'
     date = Date.parse(gets.chomp)
