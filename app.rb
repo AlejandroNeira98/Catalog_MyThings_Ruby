@@ -1,4 +1,3 @@
-
 require_relative './movie'
 require 'date'
 require_relative './models/music_album'
@@ -24,8 +23,10 @@ class App
   end
 
   def list_all_movies
-    @movies.each do |movie|
-      puts "date: #{movie.can_be_archived?}, silent: #{movie.silent}"
+    @movies.each_with_index do |album, index|
+      puts ''
+      print "#{index + 1} => Released On: #{movie.date}  |*_*|  Silent: #{album.silent ? 'Yes' : 'No '} |*_*|"
+      print "Archived: #{movie.archived ? 'Yes' : 'No '}"
     end
   end
 
