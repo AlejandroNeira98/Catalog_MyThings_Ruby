@@ -1,6 +1,6 @@
-require ',/item'
+require './item'
 
-class Game < item
+class Game < Item
   attr_accessor :multiplayer, :last_played_at
 
   def initialize(date, archived, multiplayer, last_played_at, id: nil)

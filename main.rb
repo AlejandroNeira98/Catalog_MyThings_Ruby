@@ -31,6 +31,7 @@ OPTIONS = [
 ].freeze
 
 def main
+  APP.load
   loop do
     puts OPTIONS_INFO
     choice = gets.to_i
@@ -38,6 +39,7 @@ def main
     when 1..12
       OPTIONS[choice - 1].call
     when 13
+      APP.save
       return puts 'Thank you for using this app!'
     end
   end
