@@ -1,9 +1,9 @@
 require_relative './movie'
 require 'date'
 require 'json'
-require_relative './models/music_album'
 require './models/game'
 require './models/author'
+require_relative './controller/music_album_controller'
 require './models/book'
 require './models/label'
 
@@ -24,9 +24,9 @@ class App
   def initialize
     @movies = []
     @sources = []
-    @music_albums = []
     @games = []
     @authors = []
+    @music_album_controller = MusicAlbumController.new
     @books = []
     @labels = []
   end
@@ -44,12 +44,7 @@ class App
   end
 
   def list_all_music_albums
-    @music_albums.each_with_index do |album, index|
-      puts ''
-      print "#{index + 1} => Released On: #{album.publish_date}  |*_*|  Archived: #{album.archived ? 'Yes' : 'No '}"
-      print "  |*_*|  On Spotify: #{album.on_spotify ? 'Yes' : 'No'}"
-      puts ''
-    end
+    @music_album_controller.list_all_music_albums
   end
 
   def list_all_movies
@@ -67,7 +62,7 @@ class App
   end
 
   def list_all_genres
-    raise StandardError, 'not implemented'
+    @music_album_controller.list_all_genres
   end
 
   def list_all_labels
@@ -125,16 +120,7 @@ class App
   end
 
   def add_a_music_album
-    puts ''
-    puts 'Date of Album (YYYY-MM-DD): '
-    date = gets.chomp
-    d = Date.parse(date)
-    puts 'Is Album Archived(y/n)?'
-    archived = gets.chomp
-    puts 'Is Album on Spotify(y/n)?'
-    on_spotify = gets.chomp
-    music_album = MusicAlbum.new(d, archived == 'y', on_spotify == 'y')
-    @music_albums << music_album
+    @music_album_controller.add_a_music_album
   end
 
   def add_a_movie
