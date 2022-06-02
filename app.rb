@@ -201,14 +201,7 @@ class App
     # Saadat
 
     # Chris
-    unless File.zero?('./data/authors.json')
-      @authors = JSON.parse(File.read('./data/authors.json'))
-        .map { |data| Author.from_hash(data) }
-    end
-    unless File.zero?('./data/games.json')
-      @games = JSON.parse(File.read('./data/games.json'))
-        .map { |data| Book.from_hash(data) }
-    end
+    load_game_author
     # Alejandro
     if File.exist?('./movies.json')
       @movies = JSON.parse(File.read('./movies.json'))
@@ -221,5 +214,15 @@ class App
     # rubocop:enable Style/GuardClause
   end
   # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+  def load_game_author
+    unless File.zero?('./data/authors.json')
+      @authors = JSON.parse(File.read('./data/authors.json'))
+        .map { |data| Author.from_hash(data) }
+    end
+    unless File.zero?('./data/games.json')
+      @games = JSON.parse(File.read('./data/games.json'))
+        .map { |data| Book.from_hash(data) }
+    end
+  end
 end
 # rubocop:enable Metrics/ClassLength
