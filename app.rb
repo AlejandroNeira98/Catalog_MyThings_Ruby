@@ -19,6 +19,7 @@ COLOR_CODES = {
   'default' => 39
 }.freeze
 
+# rubocop:disable Metrics/ClassLength
 class App
   def initialize
     @movies = []
@@ -52,8 +53,10 @@ class App
   end
 
   def list_all_movies
-    @movies.each do |movie|
-      puts "date: #{movie.can_be_archived?}, silent: #{movie.silent}"
+    @movies.each_with_index do |movie, index|
+      puts ''
+      print "#{index + 1} => Released On: #{movie.publish_date}  |*_*|  Silent: #{movie.silent ? 'Yes' : 'No '} |*_*|"
+      print "Archived: #{movie.archived ? 'Yes' : 'No '}"
     end
   end
 
@@ -174,8 +177,15 @@ class App
     # Chris
 
     # Alejandro
+    File.open('movies.json', 'w') do |file|
+      JSON.dump(@movies, file)
+    end
+    File.open('source.json', 'w') do |file|
+      JSON.dump(@source, file)
+    end
   end
 
+  # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   def load
     # Juan
     # rubocop:disable Style/GuardClause
@@ -187,11 +197,21 @@ class App
       @books = JSON.parse(File.read('./books.json'))
         .map { |data| Book.from_hash(data, @labels) }
     end
-    # rubocop:enable Style/GuardClause
     # Saadat
 
     # Chris
 
     # Alejandro
+    if File.exist?('./movies.json')
+      @movies = JSON.parse(File.read('./movies.json'))
+        .map { |data| Movie.json_creates(data) }
+    end
+    if File.exist?('./sources.json')
+      @sources = JSON.parse(File.read('./sources.json'))
+        .map { |data| Source.json_creates(data) }
+    end
+    # rubocop:enable Style/GuardClause
   end
+  # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 end
+# rubocop:enable Metrics/ClassLength
