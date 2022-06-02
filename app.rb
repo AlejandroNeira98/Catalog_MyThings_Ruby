@@ -25,7 +25,7 @@ class App
     @sources = []
     @music_albums = []
     @games = []
-    @authors []
+    @authors = []
     @books = []
     @labels = []
   end
@@ -59,7 +59,7 @@ class App
 
   def list_of_games
     @games.each do |game|
-      puts "date: #{game.date}, multiplayer: #{game.multiplayer}, last played: #{game.last_played_at}"
+      puts "date: #{game.publish_date}, multiplayer: #{game.multiplayer}, last played: #{game.last_played_at}"
     end
   end
 
@@ -162,7 +162,7 @@ class App
     last_played = gets.chomp
     last_played = Date.parse(last_played)
     a_game = Game.new(published, archived, multiplayer, last_played)
-    @game << a_game
+    @games << a_game
   end
 
   def save
