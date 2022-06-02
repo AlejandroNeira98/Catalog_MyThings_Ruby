@@ -161,7 +161,7 @@ class App
     puts 'Insert date you last played (in the format of YYYY/MM/DD)'
     last_played = gets.chomp
     last_played = Date.parse(last_played)
-    game = Game.new(date, archived, multiplayer, last_played)
+    game = Game.new(published, archived, multiplayer, last_played)
     @game << game
   end
 
