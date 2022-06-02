@@ -211,9 +211,9 @@ class App
       @sources = JSON.parse(File.read('./sources.json'))
         .map { |data| Source.json_creates(data) }
     end
-    # rubocop:enable Style/GuardClause
   end
   # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+  
   def load_game_author
     unless File.zero?('./data/authors.json')
       @authors = JSON.parse(File.read('./data/authors.json'))
@@ -223,6 +223,7 @@ class App
       @games = JSON.parse(File.read('./data/games.json'))
         .map { |data| Book.from_hash(data) }
     end
+    # rubocop:enable Style/GuardClause
   end
 end
 # rubocop:enable Metrics/ClassLength
