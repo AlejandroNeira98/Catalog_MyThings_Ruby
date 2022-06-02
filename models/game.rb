@@ -15,7 +15,8 @@ class Game < Item
   end
 
   def to_json(*_args)
-    { publish_date: @publish_date, archived: @archived, multiplayer: @multiplayer, last_played_at: @last_played_at, id: @id }.to_json
+    { publish_date: @publish_date, archived: @archived, multiplayer: @multiplayer,
+      last_played_at: @last_played_at, id: @id }.to_json
   end
 
   def self.from_hash(hash)

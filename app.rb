@@ -175,8 +175,8 @@ class App
     # Saadat
 
     # Chris
-    File.write('./data/games.json', JSON.dump(@games)) unless @games.length == 0
-    File.write('./data/authors.json', JSON.dump(@authors)) unless @authors.length == 0
+    File.write('./data/games.json', JSON.dump(@games)) unless @games.empty?
+    File.write('./data/authors.json', JSON.dump(@authors)) unless @authors.empty?
     # Alejandro
     File.open('movies.json', 'w') do |file|
       JSON.dump(@movies, file)
@@ -201,10 +201,14 @@ class App
     # Saadat
 
     # Chris
+    unless File.zero?('./data/authors.json')
       @authors = JSON.parse(File.read('./data/authors.json'))
-        .map { |data| Author.from_hash(data) } unless File.zero?('./data/authors.json')
+        .map { |data| Author.from_hash(data) }
+    end
+    unless File.zero?('./data/games.json')
       @games = JSON.parse(File.read('./data/games.json'))
-        .map { |data| Book.from_hash(data) } unless File.zero?('./data/games.json')
+        .map { |data| Book.from_hash(data) }
+    end
     # Alejandro
     if File.exist?('./movies.json')
       @movies = JSON.parse(File.read('./movies.json'))
