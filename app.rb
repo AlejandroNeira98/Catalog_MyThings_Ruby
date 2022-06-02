@@ -175,7 +175,8 @@ class App
     # Saadat
 
     # Chris
-
+    File.write('./data/games.json', JSON.dump(@games))
+    File.write('./data/authors.json', JSON.dump(@authors))
     # Alejandro
     File.open('movies.json', 'w') do |file|
       JSON.dump(@movies, file)

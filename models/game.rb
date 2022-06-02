@@ -13,4 +13,17 @@ class Game < Item
     current_time = Time.new
     super && current_time.year - @last_played_at.year > 2
   end
+
+  def to_json(*_args)
+    { publish_date: @publish_date, archived: @archived, multiplayer: @multiplayer, last_played_at: @last_played_at, id: @id,
+      author_id: @author.id }.to_json
+  end
+
+  def self.from_hash(hash, authors)
+    publish_date, archived, multiplayer, last_played_at, id = *hash
+    new_instance = new(publish_date, archived, multiplayer, last_played_at, id: id)
+    found_author = author.find { |author| author.id == id }
+    found_author&.add_item(author)
+    new_instance
+  end
 end
