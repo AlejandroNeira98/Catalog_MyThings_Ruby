@@ -78,6 +78,7 @@ class App
   def list_all_authors
     @authors.each do |author|
       puts "#{author.first_name} #{author.last_name}"
+    end
   end
 
   def list_all_sources
