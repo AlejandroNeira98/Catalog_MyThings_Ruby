@@ -221,7 +221,7 @@ class App
     end
     unless File.zero?('./data/games.json')
       @games = JSON.parse(File.read('./data/games.json'))
-        .map { |data| Book.from_hash(data) }
+        .map { |data| Game.from_hash(data) }
     end
     # rubocop:enable Style/GuardClause
   end
