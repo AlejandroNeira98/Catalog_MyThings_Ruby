@@ -39,11 +39,20 @@ class App
     puts ''
   end
 
+  def colorize(foreground_color, text)
+    "\e[#{foreground_color}m#{text}\e[0m"
+  end
+
   def list_all_music_albums
     @music_albums.each_with_index do |album, index|
       puts ''
-      print "#{index + 1} => Released On: #{album.publish_date}  |*_*|  Archived: #{album.archived ? 'Yes' : 'No '}"
-      print "  |*_*|  On Spotify: #{album.on_spotify ? 'Yes' : 'No'}"
+      print colorize(COLOR_CODES['pink'], (index + 1).to_s).to_s
+      print " => #{colorize(COLOR_CODES['cyan'], 'Released On:')} #{album.publish_date}  "
+      print colorize(COLOR_CODES['yellow'], '|*_*|').to_s
+      print "  #{colorize(COLOR_CODES['cyan'], 'Archived:')} "
+      print album.archived ? colorize(COLOR_CODES['green'], 'Yes').to_s : colorize(COLOR_CODES['red'], 'No ').to_s
+      print "  #{colorize(COLOR_CODES['yellow'], '|*_*|')}  #{colorize(COLOR_CODES['cyan'], 'On Spotify:')} "
+      print album.on_spotify ? colorize(COLOR_CODES['green'], 'Yes').to_s : colorize(COLOR_CODES['red'], 'No').to_s
       puts ''
     end
   end
@@ -114,6 +123,10 @@ class App
     label.add_item(book)
   end
 
+  def select_genre
+    
+  end
+
   def add_a_music_album
     puts ''
     puts 'Date of Album (YYYY-MM-DD): '
@@ -125,6 +138,7 @@ class App
     on_spotify = gets.chomp
     music_album = MusicAlbum.new(d, archived == 'y', on_spotify == 'y')
     @music_albums << music_album
+    genre = select_genre
   end
 
   def add_a_movie
