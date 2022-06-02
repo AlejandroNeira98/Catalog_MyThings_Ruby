@@ -50,20 +50,16 @@ CREATE TABLE games (
   genre_id INT,
   label_id INT,
   source_id INT,
-  CONSTRAINT fk_game_label
-    FOREIGN KEY(label_id) 
+  CONSTRAINT fk_game_label FOREIGN KEY(label_id) 
   REFERENCES labels(id)
   ON DELETE SET NULL,
-  CONSTRAINT fk_game_genre
-    FOREIGN KEY(genre_id) 
+  CONSTRAINT fk_game_genre FOREIGN KEY(genre_id) 
   REFERENCES genres(id)
   ON DELETE SET NULL,
-  CONSTRAINT fk_game_author
-    FOREIGN KEY(author_id) 
+  CONSTRAINT fk_game_author FOREIGN KEY(author_id) 
   REFERENCES authors(id)
   ON DELETE SET NULL,
-  CONSTRAINT fk_game_source
-    FOREIGN KEY(source_id) 
+  CONSTRAINT fk_game_source FOREIGN KEY(source_id) 
   REFERENCES sources(id)
   ON DELETE SET NULL
 );
