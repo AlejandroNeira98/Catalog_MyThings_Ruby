@@ -24,7 +24,7 @@ class Movie < Item
     as_json.to_json(*options)
   end
 
-  def self.json_create(object)
+  def self.json_creates(object)
     publish_date, archived, silent, id = object['a']
     new(publish_date, archived, silent, id: id)
   end

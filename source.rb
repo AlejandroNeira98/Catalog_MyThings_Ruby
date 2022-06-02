@@ -26,7 +26,7 @@ class Source
     as_json.to_json(*options)
   end
 
-  def self.json_create(object)
+  def self.json_creates(object)
     name, id = object['a']
     new(name, id: id)
   end
