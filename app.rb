@@ -1,9 +1,11 @@
 require_relative './movie'
 require 'date'
+require 'json'
 require_relative './models/music_album'
+require './models/game'
+require './models/author'
 require './models/book'
 require './models/label'
-require './models/game'
 
 COLOR_CODES = {
   'black' => 30,
@@ -22,6 +24,8 @@ class App
     @movies = []
     @sources = []
     @music_albums = []
+    @games = []
+    @authors = []
     @books = []
     @labels = []
   end
@@ -56,7 +60,9 @@ class App
   end
 
   def list_of_games
-    raise StandardError, 'not implemented'
+    @games.each do |game|
+      puts "date: #{game.publish_date}, multiplayer: #{game.multiplayer}, last played: #{game.last_played_at}"
+    end
   end
 
   def list_all_genres
@@ -71,7 +77,9 @@ class App
   end
 
   def list_all_authors
-    raise StandardError, 'not implemented'
+    @authors.each do |author|
+      puts "#{author.first_name} #{author.last_name}"
+    end
   end
 
   def list_all_sources
@@ -146,6 +154,49 @@ class App
   end
 
   def add_a_game
-    raise StandardError, 'not implemented'
+    puts 'Insert publish date (in the format of YYYY/MM/DD)'
+    published = gets.chomp
+    published = Date.parse(published)
+    puts 'Is the game archived? (y/n)'
+    archived = gets.chomp
+    archived = %w[Y y].include?(archived)
+    puts 'Is the game multiplayer? (y/n)'
+    multiplayer = gets.chomp
+    multiplayer = %w[Y y].include?(multiplayer)
+    puts 'Insert date you last played (in the format of YYYY/MM/DD)'
+    last_played = gets.chomp
+    last_played = Date.parse(last_played)
+    a_game = Game.new(published, archived, multiplayer, last_played)
+    @games << a_game
+  end
+
+  def save
+    # Juan
+    File.write('./books.json', JSON.dump(@books))
+    File.write('./labels.json', JSON.dump(@labels))
+    # Saadat
+
+    # Chris
+
+    # Alejandro
+  end
+
+  def load
+    # Juan
+    # rubocop:disable Style/GuardClause
+    if File.exist?('./labels.json')
+      @labels = JSON.parse(File.read('./labels.json'))
+        .map { |data| Label.from_hash(data) }
+    end
+    if File.exist?('./books.json')
+      @books = JSON.parse(File.read('./books.json'))
+        .map { |data| Book.from_hash(data, @labels) }
+    end
+    # rubocop:enable Style/GuardClause
+    # Saadat
+
+    # Chris
+
+    # Alejandro
   end
 end
