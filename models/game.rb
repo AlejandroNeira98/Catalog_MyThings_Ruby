@@ -15,15 +15,11 @@ class Game < Item
   end
 
   def to_json(*_args)
-    { publish_date: @publish_date, archived: @archived, multiplayer: @multiplayer, last_played_at: @last_played_at, id: @id,
-      author_id: @author.id }.to_json
+    { publish_date: @publish_date, archived: @archived, multiplayer: @multiplayer, last_played_at: @last_played_at, id: @id }.to_json
   end
 
-  def self.from_hash(hash, authors)
+  def self.from_hash(hash)
     publish_date, archived, multiplayer, last_played_at, id = *hash
-    new_instance = new(publish_date, archived, multiplayer, last_played_at, id: id)
-    found_author = author.find { |author| author.id == id }
-    found_author&.add_item(author)
-    new_instance
+    new(publish_date, archived, multiplayer, last_played_at, id: id)
   end
 end

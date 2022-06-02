@@ -201,7 +201,10 @@ class App
     # Saadat
 
     # Chris
-
+      @authors = JSON.parse(File.read('./data/authors.json'))
+        .map { |data| Author.from_hash(data) } unless File.zero?('./data/authors.json')
+      @games = JSON.parse(File.read('./data/games.json'))
+        .map { |data| Book.from_hash(data) } unless File.zero?('./data/games.json')
     # Alejandro
     if File.exist?('./movies.json')
       @movies = JSON.parse(File.read('./movies.json'))
