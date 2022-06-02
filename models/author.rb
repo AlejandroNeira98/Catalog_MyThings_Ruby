@@ -13,4 +13,13 @@ class Author
     @items << item
     item.add_author(self)
   end
+
+  def to_json(*_args)
+    { first_name: first_name, last_name: last_name, id: id }.to_json
+  end
+
+  def self.from_hash(hash)
+    first_name, last_name, id = *hash
+    new(first_name, last_name, id: id)
+  end
 end

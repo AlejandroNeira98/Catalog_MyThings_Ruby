@@ -161,7 +161,8 @@ class App
     # Saadat
 
     # Chris
-
+    File.write('./data/games.json', JSON.dump(@games)) unless @games.empty?
+    File.write('./data/authors.json', JSON.dump(@authors)) unless @authors.empty?
     # Alejandro
     File.open('movies.json', 'w') do |file|
       JSON.dump(@movies, file)
@@ -186,7 +187,7 @@ class App
     # Saadat
 
     # Chris
-
+    load_game_author
     # Alejandro
     if File.exist?('./movies.json')
       @movies = JSON.parse(File.read('./movies.json'))
@@ -196,8 +197,19 @@ class App
       @sources = JSON.parse(File.read('./sources.json'))
         .map { |data| Source.json_creates(data) }
     end
-    # rubocop:enable Style/GuardClause
   end
   # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+
+  def load_game_author
+    unless File.zero?('./data/authors.json')
+      @authors = JSON.parse(File.read('./data/authors.json'))
+        .map { |data| Author.from_hash(data) }
+    end
+    unless File.zero?('./data/games.json')
+      @games = JSON.parse(File.read('./data/games.json'))
+        .map { |data| Game.from_hash(data) }
+    end
+    # rubocop:enable Style/GuardClause
+  end
 end
 # rubocop:enable Metrics/ClassLength
