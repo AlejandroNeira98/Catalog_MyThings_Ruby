@@ -2,6 +2,7 @@ require_relative './movie'
 require 'date'
 require 'json'
 require_relative './models/music_album'
+require_relative './models/genre'
 require './models/book'
 require './models/label'
 require './models/game'
@@ -23,6 +24,7 @@ class App
     @movies = []
     @sources = []
     @music_albums = []
+    @genres = []
     @books = []
     @labels = []
   end
@@ -52,7 +54,9 @@ class App
       print "  #{colorize(COLOR_CODES['cyan'], 'Archived:')} "
       print album.archived ? colorize(COLOR_CODES['green'], 'Yes').to_s : colorize(COLOR_CODES['red'], 'No ').to_s
       print "  #{colorize(COLOR_CODES['yellow'], '|*_*|')}  #{colorize(COLOR_CODES['cyan'], 'On Spotify:')} "
-      print album.on_spotify ? colorize(COLOR_CODES['green'], 'Yes').to_s : colorize(COLOR_CODES['red'], 'No').to_s
+      print album.on_spotify ? colorize(COLOR_CODES['green'], 'Yes').to_s : colorize(COLOR_CODES['red'], 'No ').to_s
+      print colorize(COLOR_CODES['yellow'], '  |*_*|').to_s
+      print "  #{colorize(COLOR_CODES['cyan'], 'Genre')}: #{album.genre.name}"
       puts ''
     end
   end
@@ -68,7 +72,9 @@ class App
   end
 
   def list_all_genres
-    raise StandardError, 'not implemented'
+    @genres.each_with_index do |genre, index|
+      puts "#{index + 1} => #{colorize(COLOR_CODES['cayan'], genre.name)}"
+    end
   end
 
   def list_all_labels
@@ -124,7 +130,24 @@ class App
   end
 
   def select_genre
-    
+    puts 'What is the Genre of Album? (press 0 for creating genre)'
+    puts 'No Genre Created Yet' if @genres.length.zero?
+    list_all_genres
+    loop do
+      opt = gets.chomp.to_i
+      if opt.zero?
+        print 'Name of Genre: '
+        name = gets.chomp
+        new_genre = Genre.new(name)
+        @genres << new_genre
+        puts "#{@genres.length} => #{new_genre.name}"
+      else
+        result_genre = @genres[opt - 1]
+        return result_genre unless result_genre.nil?
+
+        puts 'Not Found!'
+      end
+    end
   end
 
   def add_a_music_album
@@ -139,6 +162,7 @@ class App
     music_album = MusicAlbum.new(d, archived == 'y', on_spotify == 'y')
     @music_albums << music_album
     genre = select_genre
+    genre.add_item(music_album)
   end
 
   def add_a_movie
