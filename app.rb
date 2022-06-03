@@ -31,6 +31,34 @@ class App
     @labels = []
   end
 
+  def add_meta(item)
+    label = select_label
+    label.add_item(item)
+    genre = @music_album_controller.select_genre
+    genre.add_item(item)
+    
+  end
+
+  def select_label
+    puts "  \t|id\t\t|title\t\t|color\n#{['-'] * 50 * ''}"
+    @labels.each_with_index do |label, i|
+      puts "#{i})\t#{label.id}\t#{label.title}\t\t\033[#{COLOR_CODES[label.color]}m#{label.color}\033[0m"
+    end
+    puts "#{@labels.length})\t+ Add label"
+    puts 'Select a label:'
+    label = @labels[gets.to_i]
+    if label.nil?
+      puts 'Tile:'
+      title = gets.chomp
+      puts 'Color(black/red/green/yellow/blue/pink/cyan/white/default):'
+      color = gets.chomp
+      color = 'default' if COLOR_CODES[color].nil?
+      label = Label.new(title, color)
+    end
+    @labels << label
+    label
+  end
+
   def list_all_books
     puts "Id\t\tPublish date\tArchived\tPublisher\tCover state\tLabel\n#{['-'] * 90 * ''}"
     @books.each do |book|
@@ -84,26 +112,6 @@ class App
     end
   end
 
-  def select_label
-    puts "  \t|id\t\t|title\t\t|color\n#{['-'] * 50 * ''}"
-    @labels.each_with_index do |label, i|
-      puts "#{i})\t#{label.id}\t#{label.title}\t\t\033[#{COLOR_CODES[label.color]}m#{label.color}\033[0m"
-    end
-    puts "#{@labels.length})\t+ Add label"
-    puts 'Select a label:'
-    label = @labels[gets.to_i]
-    if label.nil?
-      puts 'Tile:'
-      title = gets.chomp
-      puts 'Color(black/red/green/yellow/blue/pink/cyan/white/default):'
-      color = gets.chomp
-      color = 'default' if COLOR_CODES[color].nil?
-      label = Label.new(title, color)
-    end
-    @labels << label
-    label
-  end
-
   def add_a_book
     puts 'Publish date (YYYY-MM-DD):'
     date = Date.parse(gets.chomp)
@@ -115,8 +123,7 @@ class App
     cover_state = gets.chomp
     book = Book.new(date, archived, publisher, cover_state)
     @books << book
-    label = select_label
-    label.add_item(book)
+    add_meta(book)
   end
 
   def add_a_music_album
