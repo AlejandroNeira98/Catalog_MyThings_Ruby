@@ -8,8 +8,8 @@ require_relative './controllers/music_album_controller'
 require_relative './controllers/game_controller'
 require_relative './controllers/movies_controller'
 require_relative './controllers/sources_controller'
-require './models/book'
-require './models/label'
+require './controllers/book_controller'
+require './controllers/label_controller'
 
 COLOR_CODES = {
   'black' => 30,
@@ -29,7 +29,8 @@ class App
     @movies_controller = MoviesController.new
     @sources_controller = SourcesController.new
     @music_album_controller = MusicAlbumController.new
-    @books = []
+    @book_controller = BookController.new
+    @label_controller = LabelController.new
     @labels = []
   end
 
@@ -43,35 +44,11 @@ class App
   end
 
   def select_label
-    puts "  \t|id\t\t|title\t\t|color\n#{['-'] * 50 * ''}"
-    @labels.each_with_index do |label, i|
-      puts "#{i})\t#{label.id}\t#{label.title}\t\t\033[#{COLOR_CODES[label.color]}m#{label.color}\033[0m"
-    end
-    puts "#{@labels.length})\t+ Add label"
-    puts 'Select a label:'
-    label = @labels[gets.to_i]
-    if label.nil?
-      puts 'Title:'
-      title = gets.chomp
-      puts 'Color(black/red/green/yellow/blue/pink/cyan/white/default):'
-      color = gets.chomp
-      color = 'default' if COLOR_CODES[color].nil?
-      label = Label.new(title, color)
-    end
-    @labels << label
-    label
+    @label_controller.select
   end
 
   def list_all_books
-    puts "Id\t\tPublish date\tArchived\tPublisher\tCover state\tLabel\n#{['-'] * 90 * ''}"
-    @books.each do |book|
-      puts "#{book.id}\t#{book.publish_date}\t" \
-           "#{book.archived}\t\t" \
-           "#{book.publisher}\t" \
-           "#{book.cover_state}\t\t" \
-           "\033[#{COLOR_CODES[book.label.color]}m#{book.label.title}\033[0m"
-    end
-    puts ''
+    @book_controller.list
   end
 
   def list_all_music_albums
@@ -91,10 +68,7 @@ class App
   end
 
   def list_all_labels
-    formated = @labels.map do |label|
-      "\033[#{COLOR_CODES[label.color]}m#{label.title}\033[0m"
-    end
-    puts formated.join(', ')
+    @label_controller.list
   end
 
   def list_all_authors
@@ -106,16 +80,7 @@ class App
   end
 
   def add_a_book
-    puts 'Publish date (YYYY-MM-DD):'
-    date = Date.parse(gets.chomp)
-    puts 'Is it archived(y/n)?:'
-    archived = gets.chomp == 'y'
-    puts 'Publisher:'
-    publisher = gets.chomp
-    puts 'Cover state:'
-    cover_state = gets.chomp
-    book = Book.new(date, archived, publisher, cover_state)
-    @books << book
+    book = @book_controller.add
     add_meta(book)
   end
 
@@ -135,9 +100,8 @@ class App
 
   def save
     Dir.mkdir('./data/') unless File.directory?('./data/')
-    # Juan
-    File.write('./data/books.json', JSON.dump(@books))
-    File.write('./data/labels.json', JSON.dump(@labels))
+    File.write('./data/books.json', JSON.dump(@book_controller.books))
+    File.write('./data/labels.json', JSON.dump(@label_controller.labels))
     # Saadat
     File.open('./data/music_album.json', 'w') do |file|
       JSON.dump(@music_album_controller.music_albums, file)
@@ -155,15 +119,14 @@ class App
 
   def load
     Dir.mkdir('./data/') unless File.directory?('./data/')
-    # Juan
     # rubocop:disable Style/GuardClause
     if File.exist?('./data/labels.json')
-      @labels = JSON.parse(File.read('./data/labels.json'))
+      @label_controller.labels = JSON.parse(File.read('./data/labels.json'))
         .map { |data| Label.from_hash(data) }
     end
     if File.exist?('./data/books.json')
-      @books = JSON.parse(File.read('./data/books.json'))
-        .map { |data| Book.from_hash(data, @labels) }
+      @book_controller.books = JSON.parse(File.read('./data/books.json'))
+        .map { |data| Book.from_hash(data, @label_controller.labels) }
     end
     # Saadat
     @music_album_controller.genres = load_genre
