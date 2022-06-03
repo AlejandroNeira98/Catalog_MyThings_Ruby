@@ -31,7 +31,6 @@ class App
     @music_album_controller = MusicAlbumController.new
     @book_controller = BookController.new
     @label_controller = LabelController.new
-    @labels = []
   end
 
   def add_meta(item)
@@ -100,19 +99,16 @@ class App
 
   def save
     Dir.mkdir('./data/') unless File.directory?('./data/')
-    File.write('./data/books.json', JSON.dump(@book_controller.books))
+    File.write('./data/books.json', JSON.dump(@books))
     File.write('./data/labels.json', JSON.dump(@label_controller.labels))
-    # Saadat
     File.open('./data/music_album.json', 'w') do |file|
       JSON.dump(@music_album_controller.music_albums, file)
     end
     File.open('./data/genre.json', 'w') do |file|
       JSON.dump(@music_album_controller.genres, file)
     end
-    # Chris
     File.write('./data/games.json', JSON.dump(@game_controller.games)) unless @game_controller.games.empty?
     File.write('./data/authors.json', JSON.dump(@game_controller.authors)) unless @game_controller.authors.empty?
-    # Alejandro
     @movies_controller.save_movies
     @sources_controller.save_sources
   end
@@ -128,15 +124,11 @@ class App
       @book_controller.books = JSON.parse(File.read('./data/books.json'))
         .map { |data| Book.from_hash(data, @label_controller.labels) }
     end
-    # Saadat
     @music_album_controller.genres = load_genre
     @music_album_controller.music_albums = load_music_album
-
-    # Chris
     load_game_author
-    # Alejandro
     @sources_controller.load_sources
-    @movies_controller.load_movies(@labels, @sources_controller.sources, @music_album_controller.genres)
+    @movies_controller.load_movies(@label_controller.labels, @sources_controller.sources, @music_album_controller.genres)
   end
 
   def load_game_author
