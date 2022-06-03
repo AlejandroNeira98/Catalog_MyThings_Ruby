@@ -16,12 +16,14 @@
 To get a local copy follow these simple example steps.  
 
 1.- Open the terminal window and clone the repository using this command:  
-`git clone git@github.com:Saadat123456/OOP-school-library.git` 
+`git clone git@github.com:AlejandroNeira98/Catalog_MyThings_Ruby.git` 
 
 2.- Change the directory to the school-library directory  
-`cd oop-school-library`  
+`cd Catalog_MyThings_Ruby`  
 3.- Install the project's dependencies by running this command:   
 `bundle install`
+4.- To run the application the following command
+`ruby main.rb`
 
 ## Authors
 
