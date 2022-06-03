@@ -1,4 +1,5 @@
 require './models/book'
+require './decorators/cell'
 require 'date'
 
 class BookController
@@ -9,13 +10,14 @@ class BookController
   end
 
   def list
-    puts "Id\t\tPublish date\tArchived\tPublisher\tCover state\tLabel\n#{['-'] * 90 * ''}"
+    puts "Id\t\tPublish date\tArchived\tPublisher\tCover state\tLabel\n#{['-'] * 96 * ''}+"
     @books.each do |book|
-      puts "#{book.id}\t#{book.publish_date}\t" \
-           "#{book.archived}\t\t" \
-           "#{book.publisher}\t" \
-           "#{book.cover_state}\t\t" \
-           "\033[#{COLOR_CODES[book.label.color]}m#{book.label.title}\033[0m"
+      puts "#{Cell.new(book.id)}" \
+           "#{Cell.new(book.publish_date)}" \
+           "#{Cell.new(book.archived)}" \
+           "#{Cell.new(book.publisher)}" \
+           "#{Cell.new(book.cover_state)}" \
+           "\033[#{COLOR_CODES[book.label.color]}m#{Cell.new(book.label.title)}\033[0m"
     end
     puts ''
   end
