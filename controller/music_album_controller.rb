@@ -2,6 +2,8 @@ require_relative '../models/music_album'
 require_relative '../models/genre'
 
 class MusicAlbumController
+  attr_accessor :music_albums, :genres
+
   def initialize
     @music_albums = []
     @genres = []
