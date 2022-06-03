@@ -44,6 +44,10 @@ To get a local copy follow these simple example steps.
 - Twitter: [@JuanLuisPalac20](https://twitter.com/twitterhandle)
 - LinkedIn: [LinkedIn](https://www.linkedin.com/in/juan-luis-palacios-p%C3%A9rez-95b39a228/)
 
+👤 **Chris Clothier**
+
+- GitHub: [@CRClothier](https://github.com/CRClothier)
+- LinkedIn: [LinkedIn](https://www.linkedin.com/in/crclothier/) 
 
 ## 🤝 Contributing
 
