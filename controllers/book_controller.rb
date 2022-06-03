@@ -1,9 +1,9 @@
 require './models/book'
 require 'date'
 
-# rubocop:disable Metrics/ClassLength
 class BookController
-    attr_accessor :books
+  attr_accessor :books
+
   def initialize
     @books = []
   end
@@ -31,9 +31,7 @@ class BookController
     cover_state = gets.chomp
     book = Book.new(date, archived, publisher, cover_state)
     @books << book
-    
+
     book
   end
-
 end
-# rubocop:enable Metrics/ClassLength

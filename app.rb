@@ -19,7 +19,6 @@ COLOR_CODES = {
   'default' => 39
 }.freeze
 
-# rubocop:disable Metrics/ClassLength
 class App
   def initialize
     @movies = []
@@ -27,8 +26,8 @@ class App
     @games = []
     @authors = []
     @music_album_controller = MusicAlbumController.new
-    @book_controller = BookController.new()
-    @label_controller = LabelController.new()
+    @book_controller = BookController.new
+    @label_controller = LabelController.new
     @labels = []
   end
 
@@ -204,4 +203,3 @@ class App
       .map { |data| Genre.json_create(data) }
   end
 end
-# rubocop:enable Metrics/ClassLength
