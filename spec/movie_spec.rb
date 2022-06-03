@@ -1,4 +1,4 @@
-require_relative '../movie'
+require_relative '../models/movie'
 require 'date'
 
 describe Movie do

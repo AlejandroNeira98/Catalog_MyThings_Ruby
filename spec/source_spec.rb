@@ -1,4 +1,4 @@
-require_relative '../source'
+require_relative '../models/source'
 require_relative '../item'
 
 describe Source do
