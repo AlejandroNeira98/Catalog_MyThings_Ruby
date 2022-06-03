@@ -8,6 +8,8 @@
 ## Built With
 
 - Ruby
+- RSpec
+- Postgres Sql
 
 ## Getting Started
 
