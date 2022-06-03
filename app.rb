@@ -3,7 +3,7 @@ require 'date'
 require 'json'
 require './models/game'
 require './models/author'
-require_relative './controller/music_album_controller'
+require_relative './controllers/music_album_controller'
 require './models/book'
 require './models/label'
 
