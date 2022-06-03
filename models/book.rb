@@ -19,7 +19,8 @@ class Book < Item
   end
 
   def self.from_hash(hash, labels)
-    publish_date, archived, publisher, cover_state, id, label_id = hash.values_at('publish_date', 'archived', 'publisher', 'cover_state', 'id', 'label_id')
+    publish_date, archived, publisher = hash.values_at('publish_date', 'archived', 'publisher')
+    cover_state, id, label_id = hash.values_at('cover_state', 'id', 'label_id')
     new_instance = new(publish_date, archived, publisher, cover_state, id: id)
     found_label = labels.find { |label| label.id == label_id }
     found_label&.add_item(new_instance)

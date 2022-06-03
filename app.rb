@@ -36,7 +36,6 @@ class App
     label.add_item(item)
     genre = @music_album_controller.select_genre
     genre.add_item(item)
-    
   end
 
   def select_label
