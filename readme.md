@@ -1,6 +1,6 @@
 ![](https://img.shields.io/badge/Microverse-blueviolet)
 
-# Project Title
+# Catalog of My Things
 
 > A Simple Ruby Base School Library
 
