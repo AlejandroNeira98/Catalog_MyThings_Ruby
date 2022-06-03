@@ -27,18 +27,18 @@ To get a local copy follow these simple example steps.
 
 ## Authors
 
-👤 *Saadat Ali*
+👤 **Saadat Ali**
 
 - GitHub: [@githubhandle](https://github.com/Saadat123456)
 - Twitter: [@twitterhandle](https://twitter.com/Saadat02021999)
 - LinkedIn: [LinkedIn](https://www.linkedin.com/in/saadatali1999/)
 
-👤 *Alejandro Neira*
+👤 **Alejandro Neira**
 - GitHub: [@AlejandroNeira98](https://github.com/AlejandroNeira98)
 - Twitter: [@JANP_19](https://twitter.com/JANP_19)
 - LinkedIn: [LinkedIn](https://www.linkedin.com/in/alejandro-neira-0b45b6226/) 
 
-👤 Juan Luis Palacios
+👤 **Juan Luis Palacios**
 
 - GitHub: [@JuanLPalacios](https://github.com/JuanLPalacios)
 - Twitter: [@JuanLuisPalac20](https://twitter.com/twitterhandle)
