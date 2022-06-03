@@ -4,8 +4,8 @@ require 'json'
 require './models/game'
 require './models/author'
 require_relative './controllers/music_album_controller'
-require './models/book'
-require './models/label'
+require './controllers/book_controller'
+require './controllers/label_controller'
 
 COLOR_CODES = {
   'black' => 30,
@@ -28,6 +28,7 @@ class App
     @authors = []
     @music_album_controller = MusicAlbumController.new
     @book_controller = BookController.new()
+    @label_controller = LabelController.new()
     @labels = []
   end
 
@@ -39,23 +40,7 @@ class App
   end
 
   def select_label
-    puts "  \t|id\t\t|title\t\t|color\n#{['-'] * 50 * ''}"
-    @labels.each_with_index do |label, i|
-      puts "#{i})\t#{label.id}\t#{label.title}\t\t\033[#{COLOR_CODES[label.color]}m#{label.color}\033[0m"
-    end
-    puts "#{@labels.length})\t+ Add label"
-    puts 'Select a label:'
-    label = @labels[gets.to_i]
-    if label.nil?
-      puts 'Tile:'
-      title = gets.chomp
-      puts 'Color(black/red/green/yellow/blue/pink/cyan/white/default):'
-      color = gets.chomp
-      color = 'default' if COLOR_CODES[color].nil?
-      label = Label.new(title, color)
-    end
-    @labels << label
-    label
+    @label_controller.select
   end
 
   def list_all_books
@@ -85,10 +70,7 @@ class App
   end
 
   def list_all_labels
-    formated = @labels.map do |label|
-      "\033[#{COLOR_CODES[label.color]}m#{label.title}\033[0m"
-    end
-    puts formated.join(', ')
+    @label_controller.list
   end
 
   def list_all_authors
@@ -104,7 +86,8 @@ class App
   end
 
   def add_a_book
-    @book_controller.add { |book| add_meta(book)}
+    book = @book_controller.add
+    add_meta(book)
   end
 
   def add_a_music_album
@@ -144,8 +127,8 @@ class App
 
   def save
     Dir.mkdir('./data/') unless File.directory?('./data/')
-    File.write('./data/books.json', JSON.dump(@books))
-    File.write('./data/labels.json', JSON.dump(@labels))
+    File.write('./data/books.json', JSON.dump(@book_controller.books))
+    File.write('./data/labels.json', JSON.dump(@label_controller.labels))
     # Saadat
     File.open('./data/music_album.json', 'w') do |file|
       JSON.dump(@music_album_controller.music_albums, file)
@@ -170,12 +153,12 @@ class App
     Dir.mkdir('./data/') unless File.directory?('./data/')
     # rubocop:disable Style/GuardClause
     if File.exist?('./data/labels.json')
-      @labels = JSON.parse(File.read('./data/labels.json'))
+      @label_controller.labels = JSON.parse(File.read('./data/labels.json'))
         .map { |data| Label.from_hash(data) }
     end
     if File.exist?('./data/books.json')
-      @books = JSON.parse(File.read('./data/books.json'))
-        .map { |data| Book.from_hash(data, @labels) }
+      @book_controller.books = JSON.parse(File.read('./data/books.json'))
+        .map { |data| Book.from_hash(data, @label_controller.labels) }
     end
     # Saadat
     @music_album_controller.genres = load_genre
