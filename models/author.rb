@@ -20,6 +20,6 @@ class Author
 
   def self.from_hash(hash)
     first_name, last_name, id = *hash
-    new(first_name, last_name, id: id)
+    new(first_name[1], last_name[1], id: id[1])
   end
 end

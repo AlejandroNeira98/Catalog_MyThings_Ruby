@@ -1,9 +1,9 @@
-require_relative './movie'
+require_relative './models/movie'
 require 'date'
 require 'json'
 require './models/game'
 require './models/author'
-require_relative './controller/music_album_controller'
+require_relative './controllers/music_album_controller'
 require './models/book'
 require './models/label'
 
@@ -29,6 +29,33 @@ class App
     @music_album_controller = MusicAlbumController.new
     @books = []
     @labels = []
+  end
+
+  def add_meta(item)
+    label = select_label
+    label.add_item(item)
+    genre = @music_album_controller.select_genre
+    genre.add_item(item)
+  end
+
+  def select_label
+    puts "  \t|id\t\t|title\t\t|color\n#{['-'] * 50 * ''}"
+    @labels.each_with_index do |label, i|
+      puts "#{i})\t#{label.id}\t#{label.title}\t\t\033[#{COLOR_CODES[label.color]}m#{label.color}\033[0m"
+    end
+    puts "#{@labels.length})\t+ Add label"
+    puts 'Select a label:'
+    label = @labels[gets.to_i]
+    if label.nil?
+      puts 'Tile:'
+      title = gets.chomp
+      puts 'Color(black/red/green/yellow/blue/pink/cyan/white/default):'
+      color = gets.chomp
+      color = 'default' if COLOR_CODES[color].nil?
+      label = Label.new(title, color)
+    end
+    @labels << label
+    label
   end
 
   def list_all_books
@@ -84,26 +111,6 @@ class App
     end
   end
 
-  def select_label
-    puts "  \t|id\t\t|title\t\t|color\n#{['-'] * 50 * ''}"
-    @labels.each_with_index do |label, i|
-      puts "#{i})\t#{label.id}\t#{label.title}\t\t\033[#{COLOR_CODES[label.color]}m#{label.color}\033[0m"
-    end
-    puts "#{@labels.length})\t+ Add label"
-    puts 'Select a label:'
-    label = @labels[gets.to_i]
-    if label.nil?
-      puts 'Tile:'
-      title = gets.chomp
-      puts 'Color(black/red/green/yellow/blue/pink/cyan/white/default):'
-      color = gets.chomp
-      color = 'default' if COLOR_CODES[color].nil?
-      label = Label.new(title, color)
-    end
-    @labels << label
-    label
-  end
-
   def add_a_book
     puts 'Publish date (YYYY-MM-DD):'
     date = Date.parse(gets.chomp)
@@ -115,8 +122,7 @@ class App
     cover_state = gets.chomp
     book = Book.new(date, archived, publisher, cover_state)
     @books << book
-    label = select_label
-    label.add_item(book)
+    add_meta(book)
   end
 
   def add_a_music_album
@@ -155,9 +161,10 @@ class App
   end
 
   def save
+    Dir.mkdir('./data/') unless File.directory?('./data/')
     # Juan
-    File.write('./books.json', JSON.dump(@books))
-    File.write('./labels.json', JSON.dump(@labels))
+    File.write('./data/books.json', JSON.dump(@books))
+    File.write('./data/labels.json', JSON.dump(@labels))
     # Saadat
     File.open('./data/music_album.json', 'w') do |file|
       JSON.dump(@music_album_controller.music_albums, file)
@@ -169,24 +176,25 @@ class App
     File.write('./data/games.json', JSON.dump(@games)) unless @games.empty?
     File.write('./data/authors.json', JSON.dump(@authors)) unless @authors.empty?
     # Alejandro
-    File.open('movies.json', 'w') do |file|
+    File.open('./data/movies.json', 'w') do |file|
       JSON.dump(@movies, file)
     end
-    File.open('source.json', 'w') do |file|
+    File.open('./data/source.json', 'w') do |file|
       JSON.dump(@source, file)
     end
   end
 
   # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   def load
+    Dir.mkdir('./data/') unless File.directory?('./data/')
     # Juan
     # rubocop:disable Style/GuardClause
-    if File.exist?('./labels.json')
-      @labels = JSON.parse(File.read('./labels.json'))
+    if File.exist?('./data/labels.json')
+      @labels = JSON.parse(File.read('./data/labels.json'))
         .map { |data| Label.from_hash(data) }
     end
-    if File.exist?('./books.json')
-      @books = JSON.parse(File.read('./books.json'))
+    if File.exist?('./data/books.json')
+      @books = JSON.parse(File.read('./data/books.json'))
         .map { |data| Book.from_hash(data, @labels) }
     end
     # Saadat
@@ -196,23 +204,23 @@ class App
     # Chris
     load_game_author
     # Alejandro
-    if File.exist?('./movies.json')
-      @movies = JSON.parse(File.read('./movies.json'))
+    if File.exist?('./data/movies.json')
+      @movies = JSON.parse(File.read('./data/movies.json'))
         .map { |data| Movie.json_creates(data) }
     end
-    if File.exist?('./sources.json')
-      @sources = JSON.parse(File.read('./sources.json'))
+    if File.exist?('./data/sources.json')
+      @sources = JSON.parse(File.read('./data/sources.json'))
         .map { |data| Source.json_creates(data) }
     end
   end
   # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
   def load_game_author
-    unless File.zero?('./data/authors.json')
+    if File.exist?('./data/authors.json')
       @authors = JSON.parse(File.read('./data/authors.json'))
         .map { |data| Author.from_hash(data) }
     end
-    unless File.zero?('./data/games.json')
+    if File.exist?('./data/games.json')
       @games = JSON.parse(File.read('./data/games.json'))
         .map { |data| Game.from_hash(data) }
     end
