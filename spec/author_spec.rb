@@ -4,7 +4,7 @@ require './item'
 describe Author do
   context 'Testing Author class add_item method' do
     before :all do
-      @author = Author.new('J.R.R. Tolkien')
+      @author = Author.new('J.R.R.', 'Tolkien')
       @item = Item.new('date', true)
       @author.add_item(@item)
     end
