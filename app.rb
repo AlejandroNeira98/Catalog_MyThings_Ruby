@@ -27,7 +27,7 @@ class App
     @games = []
     @authors = []
     @music_album_controller = MusicAlbumController.new
-    @books = []
+    @book_controller = BookController.new()
     @labels = []
   end
 
@@ -59,15 +59,7 @@ class App
   end
 
   def list_all_books
-    puts "Id\t\tPublish date\tArchived\tPublisher\tCover state\tLabel\n#{['-'] * 90 * ''}"
-    @books.each do |book|
-      puts "#{book.id}\t#{book.publish_date}\t" \
-           "#{book.archived}\t\t" \
-           "#{book.publisher}\t" \
-           "#{book.cover_state}\t\t" \
-           "\033[#{COLOR_CODES[book.label.color]}m#{book.label.title}\033[0m"
-    end
-    puts ''
+    @book_controller.list
   end
 
   def list_all_music_albums
@@ -112,17 +104,7 @@ class App
   end
 
   def add_a_book
-    puts 'Publish date (YYYY-MM-DD):'
-    date = Date.parse(gets.chomp)
-    puts 'Is it archived(y/n)?:'
-    archived = gets.chomp == 'y'
-    puts 'Publisher:'
-    publisher = gets.chomp
-    puts 'Cover state:'
-    cover_state = gets.chomp
-    book = Book.new(date, archived, publisher, cover_state)
-    @books << book
-    add_meta(book)
+    @book_controller.add { |book| add_meta(book)}
   end
 
   def add_a_music_album
@@ -162,7 +144,6 @@ class App
 
   def save
     Dir.mkdir('./data/') unless File.directory?('./data/')
-    # Juan
     File.write('./data/books.json', JSON.dump(@books))
     File.write('./data/labels.json', JSON.dump(@labels))
     # Saadat
@@ -187,7 +168,6 @@ class App
   # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   def load
     Dir.mkdir('./data/') unless File.directory?('./data/')
-    # Juan
     # rubocop:disable Style/GuardClause
     if File.exist?('./data/labels.json')
       @labels = JSON.parse(File.read('./data/labels.json'))
