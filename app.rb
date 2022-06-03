@@ -159,7 +159,12 @@ class App
     File.write('./books.json', JSON.dump(@books))
     File.write('./labels.json', JSON.dump(@labels))
     # Saadat
-
+    File.open('./data/music_album.json', 'w') do |file|
+      JSON.dump(@music_album_controller.music_albums, file)
+    end
+    File.open('./data/genre.json', 'w') do |file|
+      JSON.dump(@music_album_controller.genres, file)
+    end
     # Chris
     File.write('./data/games.json', JSON.dump(@games)) unless @games.empty?
     File.write('./data/authors.json', JSON.dump(@authors)) unless @authors.empty?
@@ -185,6 +190,8 @@ class App
         .map { |data| Book.from_hash(data, @labels) }
     end
     # Saadat
+    load_genre
+    load_music_album
 
     # Chris
     load_game_author
@@ -210,6 +217,20 @@ class App
         .map { |data| Game.from_hash(data) }
     end
     # rubocop:enable Style/GuardClause
+  end
+
+  def load_music_album
+    if File.exist?('./data/music_album.json')
+      @music_album_controller.music_albums = JSON.parse(File.read('./data/music_album.json'))
+        .map { |data| MusicAlbum.json_create(data, @music_album_controller.genres) }
+    end
+  end
+
+  def load_genre
+    if File.exist?('./data/genre.json')
+      @music_album_controller.genres = JSON.parse(File.read('./data/genre.json'))
+        .map { |data| Genre.json_create(data) }
+    end
   end
 end
 # rubocop:enable Metrics/ClassLength
