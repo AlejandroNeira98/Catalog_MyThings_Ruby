@@ -1,9 +1,11 @@
 class GameController
   attr_accessor :games, :authors
+
   def initialize
     @games = []
     @authors = []
   end
+
   def add_a_game
     puts 'Insert publish date (in the format of YYYY/MM/DD)'
     published = gets.chomp
@@ -20,11 +22,13 @@ class GameController
     a_game = Game.new(published, archived, multiplayer, last_played)
     @games << a_game
   end
+
   def list_of_games
     @games.each do |game|
       puts "date: #{game.publish_date}, multiplayer: #{game.multiplayer}, last played: #{game.last_played_at}"
     end
   end
+
   def list_all_authors
     @authors.each do |author|
       puts "#{author.first_name} #{author.last_name}"
