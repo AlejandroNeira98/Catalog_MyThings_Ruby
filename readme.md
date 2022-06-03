@@ -2,7 +2,7 @@
 
 # Catalog of My Things
 
-> A Simple Ruby Base School Library
+> Ruby based terminal application where you can add and store your books, music albums, movies and games.
 
 
 ## Built With
