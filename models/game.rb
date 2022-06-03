@@ -21,6 +21,6 @@ class Game < Item
 
   def self.from_hash(hash)
     publish_date, archived, multiplayer, last_played_at, id = *hash
-    new(publish_date, archived, multiplayer, last_played_at, id: id)
+    new(publish_date[1], archived[1], multiplayer[1], last_played_at[1], id: id[1])
   end
 end

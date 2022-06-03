@@ -20,6 +20,6 @@ class Label
 
   def self.from_hash(hash)
     title, color, id = *hash
-    new(title, color, id: id)
+    new(title[1], color[1], id: id[1])
   end
 end

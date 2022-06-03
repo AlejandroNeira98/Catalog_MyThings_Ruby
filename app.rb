@@ -162,9 +162,10 @@ class App
   end
 
   def save
+    Dir.mkdir('./data/') unless File.directory?('./data/')
     # Juan
-    File.write('./books.json', JSON.dump(@books))
-    File.write('./labels.json', JSON.dump(@labels))
+    File.write('./data/books.json', JSON.dump(@books))
+    File.write('./data/labels.json', JSON.dump(@labels))
     # Saadat
     File.open('./data/music_album.json', 'w') do |file|
       JSON.dump(@music_album_controller.music_albums, file)
@@ -176,24 +177,25 @@ class App
     File.write('./data/games.json', JSON.dump(@games)) unless @games.empty?
     File.write('./data/authors.json', JSON.dump(@authors)) unless @authors.empty?
     # Alejandro
-    File.open('movies.json', 'w') do |file|
+    File.open('./data/movies.json', 'w') do |file|
       JSON.dump(@movies, file)
     end
-    File.open('source.json', 'w') do |file|
+    File.open('./data/source.json', 'w') do |file|
       JSON.dump(@source, file)
     end
   end
 
   # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   def load
+    Dir.mkdir('./data/') unless File.directory?('./data/')
     # Juan
     # rubocop:disable Style/GuardClause
-    if File.exist?('./labels.json')
-      @labels = JSON.parse(File.read('./labels.json'))
+    if File.exist?('./data/labels.json')
+      @labels = JSON.parse(File.read('./data/labels.json'))
         .map { |data| Label.from_hash(data) }
     end
-    if File.exist?('./books.json')
-      @books = JSON.parse(File.read('./books.json'))
+    if File.exist?('./data/books.json')
+      @books = JSON.parse(File.read('./data/books.json'))
         .map { |data| Book.from_hash(data, @labels) }
     end
     # Saadat
@@ -203,23 +205,23 @@ class App
     # Chris
     load_game_author
     # Alejandro
-    if File.exist?('./movies.json')
-      @movies = JSON.parse(File.read('./movies.json'))
+    if File.exist?('./data/movies.json')
+      @movies = JSON.parse(File.read('./data/movies.json'))
         .map { |data| Movie.json_creates(data) }
     end
-    if File.exist?('./sources.json')
-      @sources = JSON.parse(File.read('./sources.json'))
+    if File.exist?('./data/sources.json')
+      @sources = JSON.parse(File.read('./data/sources.json'))
         .map { |data| Source.json_creates(data) }
     end
   end
   # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
   def load_game_author
-    unless File.zero?('./data/authors.json')
+    if File.exist?('./data/authors.json')
       @authors = JSON.parse(File.read('./data/authors.json'))
         .map { |data| Author.from_hash(data) }
     end
-    unless File.zero?('./data/games.json')
+    if File.exist?('./data/games.json')
       @games = JSON.parse(File.read('./data/games.json'))
         .map { |data| Game.from_hash(data) }
     end

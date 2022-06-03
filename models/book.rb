@@ -1,4 +1,5 @@
 require './item'
+
 class Book < Item
   attr_accessor :publisher, :cover_state
 
@@ -18,10 +19,10 @@ class Book < Item
   end
 
   def self.from_hash(hash, labels)
-    publish_date, archived, publisher, cover_state, id = *hash
+    publish_date, archived, publisher, cover_state, id, label_id = hash.values_at('publish_date', 'archived', 'publisher', 'cover_state', 'id', 'label_id')
     new_instance = new(publish_date, archived, publisher, cover_state, id: id)
-    found_label = labels.find { |label| label.id == id }
-    found_label&.add_item(label)
+    found_label = labels.find { |label| label.id == label_id }
+    found_label&.add_item(new_instance)
     new_instance
   end
 end
