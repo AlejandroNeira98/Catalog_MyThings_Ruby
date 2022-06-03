@@ -12,10 +12,10 @@ class MoviesController
       puts ''
       print "#{index + 1} => Released On: #{movie.publish_date}  |*_*|  Silent: #{movie.silent ? 'Yes' : 'No '} |*_*|"
       print "Archived: #{movie.archived ? 'Yes' : 'No '}"
-      # print "|*_*| Genre: #{movie.genre.name}"
+      print "|*_*| Genre: #{movie.genre.name}"
       # print "|*_*| Author: #{movie.author.first_name} #{movie.author.last_name}"
       print "|*_*| Label: #{movie.label.title}"
-      print "|*_*| Source: #{movie.source.name}"
+      puts "|*_*| Source: #{movie.source.name}"
     end
   end
 
