@@ -16,7 +16,8 @@ class Movie < Item
   def as_json()
     {
       JSON.create_id => self.class.name,
-      'a' => [@publish_date, @archived, @silent, @id]
+      'a' => [@publish_date, @archived, @silent, @id,
+              { source_id: @source.id, genre_id: @genre.id, label_id: @label.id }]
     }
   end
 
@@ -24,8 +25,15 @@ class Movie < Item
     as_json.to_json(*options)
   end
 
-  def self.json_creates(object)
-    publish_date, archived, silent, id = object['a']
-    new(publish_date, archived, silent, id: id)
+  def self.json_creates(object, labels, sources, genres)
+    publish_date, archived, silent, id, ids = object['a']
+    new_instance = new(publish_date, archived, silent, id: id)
+    found_label = labels.find { |label| label.id == ids['label_id'] }
+    found_label&.add_item(new_instance)
+    found_source = sources.find { |source| source.id == ids['source_id'] }
+    found_source&.add_item(new_instance)
+    found_genre = genres.find { |genre| genre.id == ids['genre_id'] }
+    found_genre&.add_item(new_instance)
+    new_instance
   end
 end
