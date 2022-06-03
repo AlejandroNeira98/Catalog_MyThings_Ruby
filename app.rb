@@ -190,8 +190,8 @@ class App
         .map { |data| Book.from_hash(data, @labels) }
     end
     # Saadat
-    load_genre
-    load_music_album
+    @music_album_controller.genres = load_genre
+    @music_album_controller.music_albums = load_music_album
 
     # Chris
     load_game_author
@@ -220,17 +220,17 @@ class App
   end
 
   def load_music_album
-    if File.exist?('./data/music_album.json')
-      @music_album_controller.music_albums = JSON.parse(File.read('./data/music_album.json'))
-        .map { |data| MusicAlbum.json_create(data, @music_album_controller.genres) }
-    end
+    return [] unless File.exist?('./data/music_album.json')
+
+    JSON.parse(File.read('./data/music_album.json'))
+      .map { |data| MusicAlbum.json_create(data, @music_album_controller.genres) }
   end
 
   def load_genre
-    if File.exist?('./data/genre.json')
-      @music_album_controller.genres = JSON.parse(File.read('./data/genre.json'))
-        .map { |data| Genre.json_create(data) }
-    end
+    return [] unless File.exist?('./data/genre.json')
+
+    JSON.parse(File.read('./data/genre.json'))
+      .map { |data| Genre.json_create(data) }
   end
 end
 # rubocop:enable Metrics/ClassLength
