@@ -9,7 +9,6 @@ require_relative './controllers/movies_controller'
 require_relative './controllers/sources_controller'
 require './models/book'
 require './models/label'
-require 'pry'
 
 COLOR_CODES = {
   'black' => 30,

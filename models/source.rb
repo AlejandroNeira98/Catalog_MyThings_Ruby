@@ -1,5 +1,4 @@
 require 'json'
-require 'pry'
 
 class Source
   attr_accessor :name
