@@ -6,7 +6,6 @@ require './models/author'
 require './models/source'
 require_relative './controllers/music_album_controller'
 require_relative './controllers/game_controller'
-require_relative './controllers/game_controller'
 require_relative './controllers/movies_controller'
 require_relative './controllers/sources_controller'
 require './models/book'
@@ -24,7 +23,6 @@ COLOR_CODES = {
   'default' => 39
 }.freeze
 
-# rubocop:disable Metrics/ClassLength
 class App
   def initialize
     @game_controller = GameController.new
@@ -204,4 +202,3 @@ class App
       .map { |data| Genre.json_create(data) }
   end
 end
-# rubocop:enable Metrics/ClassLength
