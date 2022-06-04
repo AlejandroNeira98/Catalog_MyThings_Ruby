@@ -16,7 +16,7 @@ class LabelController
     puts 'Select a label:'
     label = @labels[gets.to_i]
     if label.nil?
-      puts 'Tile:'
+      puts 'Title:'
       title = gets.chomp
       puts 'Color(black/red/green/yellow/blue/pink/cyan/white/default):'
       color = gets.chomp
