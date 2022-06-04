@@ -99,7 +99,7 @@ class App
 
   def save
     Dir.mkdir('./data/') unless File.directory?('./data/')
-    File.write('./data/books.json', JSON.dump(@books))
+    File.write('./data/books.json', JSON.dump(@book_controller.books))
     File.write('./data/labels.json', JSON.dump(@label_controller.labels))
     File.open('./data/music_album.json', 'w') do |file|
       JSON.dump(@music_album_controller.music_albums, file)
@@ -128,7 +128,8 @@ class App
     @music_album_controller.music_albums = load_music_album
     load_game_author
     @sources_controller.load_sources
-    @movies_controller.load_movies(@label_controller.labels, @sources_controller.sources, @music_album_controller.genres)
+    @movies_controller.load_movies(@label_controller.labels, @sources_controller.sources,
+                                   @music_album_controller.genres)
   end
 
   def load_game_author
